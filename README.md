@@ -1,3 +1,6 @@
 # AWS Bootcamp
 
-Hands-on AWS Bootcamp repository containing cloud labs, projects, and deployment exercises.
+A hands-on AWS Bootcamp repository with cloud labs, projects, and deployment exercises.
+
+## GitHub repo:
+### https://github.com/techaxis-bootcamp/aws-bootcamp
