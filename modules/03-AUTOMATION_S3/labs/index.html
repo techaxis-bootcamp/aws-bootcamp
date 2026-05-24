@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DAV x TechAxis | AWS Cloud Bootcamp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        background-color: #fdfbf7;
+      }
+      .neo-border {
+        border: 3px solid #1e293b;
+        box-shadow: 4px 4px 0px 0px #1e293b;
+        transition: all 0.2s ease;
+      }
+      .neo-border:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px 0px #1e293b;
+      }
+      .neo-click:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0px 0px #1e293b;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-slate-800 antialiased pb-16 px-4 md:px-8">
+    <!-- Toast Notification -->
+    <div
+      id="custom-toast"
+      class="fixed bottom-5 right-5 bg-slate-900 text-white py-3 px-6 rounded-xl shadow-lg border-2 border-slate-700 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 z-50"
+    >
+      <span class="text-amber-400 font-bold">✨</span>
+      <span id="toast-message" class="text-sm font-semibold"
+        >Vibe updated!</span
+      >
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-4xl mx-auto mt-8 md:mt-16 space-y-12">
+      <!-- Hero Card -->
+      <header
+        class="bg-white rounded-2xl neo-border p-6 md:p-10 relative overflow-hidden"
+      >
+        <div
+          class="absolute top-3 right-3 bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-slate-800"
+        >
+          ⚡ S3 Hosted Live
+        </div>
+
+        <div class="space-y-4">
+          <p
+            class="text-xs font-bold tracking-widest text-orange-600 uppercase"
+          >
+            DAV College × TechAxis
+          </p>
+          <h1
+            class="text-3xl md:text-5xl font-black text-slate-900 leading-none"
+          >
+            It's giving... <br class="hidden md:block" />
+            <span
+              id="welcome-header"
+              class="text-orange-600 underline decoration-slate-900 decoration-wavy"
+              >Cloud Architect</span
+            >
+            vibes. ☁️
+          </h1>
+          <p
+            class="text-slate-600 text-sm md:text-base leading-relaxed max-w-xl"
+          >
+            Welcome to the ultimate AWS Cloud Bootcamp companion page led by
+            your instructor,
+            <strong class="text-slate-900">Niran Maharjan</strong>. No fluff. We
+            are spinning up Nginx servers, establishing secure networking
+            blocks, and deploying live architectures. No cap.
+          </p>
+        </div>
+
+        <!-- Interactivity Box -->
+        <div
+          class="mt-8 bg-amber-50 p-5 rounded-xl border-2 border-slate-800/80 space-y-4"
+        >
+          <p class="text-xs font-bold text-slate-700 uppercase tracking-wide">
+            ✨ Personalize your cloud identity
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <input
+              type="text"
+              id="username-input"
+              placeholder="Your name / tag..."
+              class="bg-white border-2 border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 font-medium"
+            />
+            <select
+              id="vibe-select"
+              class="bg-white border-2 border-slate-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-500 font-medium text-slate-700"
+            >
+              <option value="Cloud Architect">Cloud Architect Track</option>
+              <option value="DevOps Specialist">DevOps Specialist Track</option>
+              <option value="Security Guard">Security / IAM Specialist</option>
+              <option value="S3 Web Developer">S3 Web Dev Master</option>
+            </select>
+            <button
+              onclick="updatePageVibe()"
+              class="bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg text-sm border-2 border-slate-800 neo-click transition-colors"
+            >
+              Match My Vibe
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic Lab Code Vault -->
+      <section
+        class="bg-slate-950 rounded-2xl neo-border p-6 text-white space-y-6"
+      >
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-between gap-4"
+        >
+          <div>
+            <h2 class="text-xl font-black text-orange-400">
+              ⚡ Live Lab Code Vault
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">
+              Ready for the deployment run? Tap to copy configuration snippets
+              instantly.
+            </p>
+          </div>
+          <div class="flex gap-2">
+            <button
+              id="tab-btn-ec2"
+              onclick="toggleSnippet('ec2')"
+              class="px-3 py-1.5 text-xs font-bold rounded-lg bg-orange-600 text-white transition-colors"
+            >
+              Ubuntu EC2 Nginx Script
+            </button>
+            <button
+              id="tab-btn-s3"
+              onclick="toggleSnippet('s3')"
+              class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-colors"
+            >
+              S3 Public Bucket Policy
+            </button>
+          </div>
+        </div>
+
+        <div class="relative">
+          <textarea
+            id="hidden-copy-area"
+            class="absolute -top-10 left-0 w-0 h-0 opacity-0"
+          ></textarea>
+          <button
+            onclick="copySnippet()"
+            class="absolute top-3 right-3 bg-white hover:bg-slate-200 active:bg-slate-300 text-slate-900 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded border border-slate-800 transition-colors"
+          >
+            Copy Code
+          </button>
+          <pre
+            id="code-snippet-display"
+            class="bg-slate-900 text-emerald-400 p-5 rounded-xl overflow-x-auto text-xs font-mono border border-slate-800 leading-relaxed max-h-60"
+          ></pre>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer
+        class="text-center text-xs text-slate-400 pt-6 border-t border-slate-200 space-y-2"
+      >
+        <p>Designed for DAV College 8th Semester Trainees &copy; 2026</p>
+        <p class="font-bold text-slate-500">
+          Presented by TechAxis Pvt. Ltd. &bull; Lead Instructor: Niran Maharjan
+        </p>
+      </footer>
+    </div>
+
+    <!-- Page Logic -->
+    <script>
+      const snippets = {
+        ec2: `#!/bin/bash
+# 1. Update system packages
+sudo apt-get update -y
+
+# 2. Install Nginx (Standard Web Server for Ubuntu)
+sudo apt-get install -y nginx
+
+# 3. Start & Enable Nginx Web Server
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+# 4. Remove default Nginx page to avoid default page caching conflicts
+sudo rm -f /var/www/html/index.nginx-debian.html
+
+# 5. Write custom response with Instructor name Niran Maharjan
+echo "<html><body style='font-family:sans-serif;text-align:center;padding-top:100px;background:#fdfbf7;'><h1 style='color:#ea580c;'>DAV AWS Bootcamp Live on Ubuntu! 🚀</h1><p style='font-size:1.2rem;color:#1e293b;'>Powered by Nginx &middot; Led by Instructor Niran Maharjan</p></body></html>" > /var/www/html/index.html`,
+
+        s3: `{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::YOUR-DAV-BOOTCAMP-BUCKET/*"
+        }
+    ]
+}`,
+      };
+
+      let currentActiveSnippet = 'ec2';
+
+      function showToastMessage(text) {
+        const toast = document.getElementById('custom-toast');
+        const toastText = document.getElementById('toast-message');
+        toastText.textContent = text;
+
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+
+        setTimeout(() => {
+          toast.classList.remove('translate-y-0', 'opacity-100');
+          toast.classList.add('translate-y-20', 'opacity-0');
+        }, 3000);
+      }
+
+      function updatePageVibe() {
+        const nameInput = document
+          .getElementById('username-input')
+          .value.trim();
+        const selectedVibe = document.getElementById('vibe-select').value;
+        const welcomeHeader = document.getElementById('welcome-header');
+
+        if (nameInput !== '') {
+          welcomeHeader.textContent = `${nameInput}'s ${selectedVibe}`;
+          showToastMessage(`Successfully personalized to ${selectedVibe}!`);
+        } else {
+          welcomeHeader.textContent = selectedVibe;
+          showToastMessage(`Vibe matched to: ${selectedVibe}!`);
+        }
+      }
+
+      function toggleSnippet(type) {
+        currentActiveSnippet = type;
+        const ec2Btn = document.getElementById('tab-btn-ec2');
+        const s3Btn = document.getElementById('tab-btn-s3');
+        const codeDisplay = document.getElementById('code-snippet-display');
+
+        if (type === 'ec2') {
+          ec2Btn.className =
+            'px-3 py-1.5 text-xs font-bold rounded-lg bg-orange-600 text-white transition-colors';
+          s3Btn.className =
+            'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-colors';
+          codeDisplay.textContent = snippets.ec2;
+        } else {
+          s3Btn.className =
+            'px-3 py-1.5 text-xs font-bold rounded-lg bg-orange-600 text-white transition-colors';
+          ec2Btn.className =
+            'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-colors';
+          codeDisplay.textContent = snippets.s3;
+        }
+      }
+
+      function copySnippet() {
+        const textToCopy = snippets[currentActiveSnippet];
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard
+            .writeText(textToCopy)
+            .then(() => {
+              showToastMessage('Copied to clipboard! Go run it! 🚀');
+            })
+            .catch(() => {
+              fallbackCopy(textToCopy);
+            });
+        } else {
+          fallbackCopy(textToCopy);
+        }
+      }
+
+      function fallbackCopy(text) {
+        const hiddenArea = document.getElementById('hidden-copy-area');
+        // Temporarily adjust styles to make it focusable/selectable in all browsers
+        hiddenArea.value = text;
+        hiddenArea.style.display = 'block';
+        hiddenArea.style.width = '1px';
+        hiddenArea.style.height = '1px';
+        hiddenArea.style.position = 'absolute';
+        hiddenArea.style.left = '-9999px';
+
+        hiddenArea.focus();
+        hiddenArea.select();
+        hiddenArea.setSelectionRange(0, 99999); // For mobile devices
+
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            showToastMessage('Copied to clipboard! Go run it! 🚀');
+          } else {
+            showToastMessage('Copy failed. Try manual copy.');
+          }
+        } catch (err) {
+          showToastMessage('Copy failed. Try manual copy.');
+        }
+
+        // Reset styles
+        hiddenArea.style.width = '0px';
+        hiddenArea.style.height = '0px';
+      }
+
+      // Initialize script contents on load
+      window.onload = function () {
+        toggleSnippet('ec2');
+      };
+    </script>
+  </body>
+</html>
