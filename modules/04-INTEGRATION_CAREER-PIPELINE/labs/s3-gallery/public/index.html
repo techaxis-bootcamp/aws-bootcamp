@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudGallery | DAV x TechAxis AWS Bootcamp</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Toast System -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Header / Navigation -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <span class="brand-icon">☁️</span>
+        <div class="brand-text">
+          <h1>CloudGallery</h1>
+          <p>DAV x TechAxis AWS Bootcamp</p>
+        </div>
+      </div>
+      <div class="connection-badge">
+        <span class="badge-dot"></span>
+        <span id="bucket-badge">S3 Connected</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h2>S3 Object Storage Playground</h2>
+        <p>A high-performance file uploading & media gallery lab built on <strong>Bun.js</strong> and <strong>Amazon S3</strong>.</p>
+      </div>
+    </section>
+
+    <!-- Upload Card -->
+    <section class="upload-section">
+      <div class="card upload-card">
+        <div class="card-header">
+          <h3>Upload Media</h3>
+          <p>Drop your images here to sync them with S3</p>
+        </div>
+        <div class="card-body">
+          <div id="drop-zone" class="drop-zone">
+            <input type="file" id="file-input" accept="image/*" multiple hidden>
+            <div class="drop-zone-prompt">
+              <div class="upload-icon-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="32" height="32">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+              </div>
+              <p class="primary-prompt">Drag & drop files here or <span class="browse-link">browse</span></p>
+              <p class="secondary-prompt">Supports JPEG, PNG, GIF, WebP (Max 10MB)</p>
+            </div>
+          </div>
+          <div id="upload-progress-list" class="upload-progress-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+      <div class="section-header">
+        <div class="section-title">
+          <h3>Cloud Storage Vault</h3>
+          <span id="image-count" class="counter-badge">0 objects</span>
+        </div>
+        <button id="refresh-btn" class="btn btn-secondary">
+          <svg class="refresh-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17" />
+          </svg>
+          Sync
+        </button>
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="empty-state">
+        <div class="empty-icon">📂</div>
+        <h4>No images found in S3</h4>
+        <p>Use the uploader above to add files to your bucket.</p>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div id="gallery-grid" class="gallery-grid"></div>
+    </section>
+  </main>
+
+  <!-- Image Lightbox Modal -->
+  <div id="lightbox-modal" class="modal">
+    <span class="close-modal">&times;</span>
+    <div class="modal-content-wrapper">
+      <img class="modal-content" id="lightbox-img" alt="Enlarged S3 image">
+      <div id="lightbox-caption" class="modal-caption"></div>
+      <div class="modal-actions">
+        <a id="download-link" href="#" target="_blank" download class="btn btn-primary">Download</a>
+        <button id="modal-delete-btn" class="btn btn-danger">Delete Image</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p>AWS Cloud Bootcamp Lab &bull; Presented by TechAxis &bull; Lead Instructor: Niran Maharjan</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

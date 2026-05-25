@@ -1,0 +1,16 @@
+{
+  "name": "bun-s3-gallery",
+  "version": "1.0.0",
+  "description": "A simple and beautiful S3 image gallery app using Bun.js",
+  "main": "server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch server.ts",
+    "start": "bun server.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.500.0",
+    "@aws-sdk/credential-providers": "^3.500.0",
+    "@aws-sdk/s3-request-presigner": "^3.500.0"
+  }
+}
